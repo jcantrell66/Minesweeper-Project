@@ -100,12 +100,35 @@ function generateMineField(){
             //Use while loop!
         }
         mineField[mineRow][mineCol] = 'Mine'
-        console.log(mineRow,mineCol);
+    //    console.log(mineRow,mineCol);
     }
 
-    
+    mineField.forEach((arrayMine, arrayIdx) => {
 
-    console.log(mineField);
+        arrayMine.forEach((item, idx) => {
+            let mineCount = 0;
+
+            if (item !== 'Mine') {
+                if (arrayMine[idx+1] === 'Mine') {
+                    mineCount++;
+                } if (arrayMine[idx-1] === 'Mine') {
+                    mineCount++;
+                } if (mineField[arrayIdx+1][idx] === 'Mine') {
+                    mineCount++;
+
+                }
+                item = mineCount;
+                console.log(item,idx);
+            }
+            
+
+        })
+        console.log(arrayMine);
+    })
+
+
+
+//    console.log(mineField);
 }
 
 
