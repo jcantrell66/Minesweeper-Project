@@ -113,23 +113,29 @@ function generateMineField(){
                     mineCount++;
                 } if (arrayMine[idx-1] === 'Mine') {
                     mineCount++;
-                } if (mineField[arrayIdx+1][idx] === 'Mine') {
+                } if (mineField[arrayIdx+1] !== undefined && mineField[arrayIdx+1][idx] === 'Mine') {
                     mineCount++;
-
-                }
+                } if (mineField[arrayIdx+1] !== undefined && mineField[arrayIdx+1][idx+1] === 'Mine') {
+                    mineCount++;
+                } if (mineField[arrayIdx+1] !== undefined && mineField[arrayIdx+1][idx-1] === 'Mine') {
+                    mineCount++;
+                } if (mineField[arrayIdx-1] !== undefined && mineField[arrayIdx-1][idx] === 'Mine') {
+                    mineCount++;
+                } if (mineField[arrayIdx-1] !== undefined && mineField[arrayIdx-1][idx+1] === 'Mine') {
+                    mineCount++;
+                } if (mineField[arrayIdx-1] !== undefined && mineField[arrayIdx-1][idx-1] === 'Mine') {
+                    mineCount++;
+                } 
+//Need to get item into the MineField array
                 item = mineCount;
-                console.log(item,idx);
+//                mineField[arrayMine][item] = item;
+//                console.log(item,arrayIdx,idx);
             }
-            
-
         })
-        console.log(arrayMine);
     })
-
-
-
-//    console.log(mineField);
 }
 
 
 generateMineField();
+console.log(mineField);
+
