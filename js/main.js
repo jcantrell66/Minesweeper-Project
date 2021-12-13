@@ -1,7 +1,5 @@
 const mines = 10;
 
-//maybe the board?
-
 //state variables, whats changing game to game
 
 //main board displayed
@@ -27,14 +25,27 @@ let flags;
 //the main board needs to be updated with each click
 const boardEl = document.querySelector('.board');
 
+//cache the buttons on the board
+const boardButtonsEl = document.querySelectorAll('#boardButtons > button');
+
 //the remaining mines (flags) displayed in the top left
 const remainingMinesEl = document.querySelector('#minesRemaining');
 
 //results need to be displayed once the game is over
 const resultsEl = document.querySelector('#results');
 
+
+
+
+//Add event listeners
+
 //reset button, restarting the board
 document.querySelector('#reset').addEventListener('click', init);
+
+//left click to uncover a button
+document.querySelector('#boardButtons').addEventListener('click', handleButtonClick);
+
+//right click to set a flag
 
 
 
@@ -45,7 +56,7 @@ init();
 //setting the state variables EXCEPT for the board, which is
 //handled by setBoard
 function init() {
-    setBoard();
+    // setBoard();
     minesRemaining = mines;
     flags = 0;
     results = '';
@@ -64,6 +75,14 @@ function render() {
     console.log('render is invoked')
 }
 
+function handleButtonClick(e){
+    console.log(`${e.target.id} has been clicked!`)
+    let buttonRow = Math.floor(e.target.id / 8);
+    let buttonCol = e.target.id - buttonRow * 8;
+    console.log(buttonRow, buttonCol);
+    console.log(mineField[buttonRow][buttonCol]);
+}
+
 
 
 
@@ -79,7 +98,13 @@ function setBoard() {
         }
     }
     console.log('Set board!');
+// ***** Need to get the value of each index into their corresponding button?
+//Do I even need an empty array, could I just use the buttons from the html
+// and the mineField?
 }
+
+
+
 
 
 function generateMineField(){
