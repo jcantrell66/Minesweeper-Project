@@ -1,5 +1,7 @@
 const mines = 10;
 
+//maybe the board?
+
 //state variables, whats changing game to game
 
 //main board displayed
