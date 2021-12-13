@@ -38,5 +38,9 @@ section button {
 
 
 .safe {
-    background-color: lightgreen;
+    background-color: grey;
+}
+
+.danger {
+    background-color: red;
 }

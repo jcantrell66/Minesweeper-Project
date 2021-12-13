@@ -56,7 +56,7 @@ init();
 //setting the state variables EXCEPT for the board, which is
 //handled by setBoard
 function init() {
-    // setBoard();
+    generateMineField();
     minesRemaining = mines;
     flags = 0;
     results = '';
@@ -64,7 +64,6 @@ function init() {
 
 
     console.log('init is invoked!');
-    console.log(board);
     render();
 }
 
@@ -75,39 +74,53 @@ function render() {
     console.log('render is invoked')
 }
 
-function handleButtonClick(e){
+
+function handleButtonClick(e) {
+    //logic for matching each button with its corresponding value in the mineField array
     console.log(`${e.target.id} has been clicked!`)
     let buttonRow = Math.floor(e.target.id / 8);
     let buttonCol = e.target.id - buttonRow * 8;
-    console.log(buttonRow, buttonCol);
-    console.log(mineField[buttonRow][buttonCol]);
+    let buttonValue = mineField[buttonRow][buttonCol];
+    console.log(`Row ${buttonRow}, column ${buttonCol}`);
+
+    //logic for changing the appearance of each button upon click
+    if (buttonValue === 'Mine') {
+        console.log('Game over');
+        e.target.className = 'danger';
+    } else if (buttonValue > 0) {
+        e.target.innerText = buttonValue;
+        e.target.className = 'safe';
+    }
+
+
 }
 
 
 
 
 //Setting board with 8x8 array of empty buttons
-function setBoard() {
-    let arrayBoard = [];
-    board = [];
-    for (let i = 0; i < 8; i++) {
-        board.push([]);
-        let arrayBoard = board[i];
-        for (let j = 0; j < 8; j++) {
-            arrayBoard.push('');
-        }
-    }
-    console.log('Set board!');
-// ***** Need to get the value of each index into their corresponding button?
-//Do I even need an empty array, could I just use the buttons from the html
-// and the mineField?
-}
+// function setBoard() {
+//     let arrayBoard = [];
+//     board = [];
+//     for (let i = 0; i < 8; i++) {
+//         board.push([]);
+//         let arrayBoard = board[i];
+//         for (let j = 0; j < 8; j++) {
+//             arrayBoard.push('');
+//         }
+//     }
+//     console.log('Set board!');
+    // ***** Need to get the value of each index into their corresponding button?
+    //Do I even need an empty array, could I just use the buttons from the html
+    // and the mineField?
+// }
 
 
 
 
 
-function generateMineField(){
+function generateMineField() {
+    //generate the mineField array
     let arrayMine = [];
     mineField = [];
     for (let i = 0; i < 8; i++) {
@@ -117,52 +130,51 @@ function generateMineField(){
             arrayMine.push(null);
         }
     }
-    console.log(mineField);
 
+    //place 10 mines into the mineField array
     for (let i = 0; i < mines; i++) {
-        let mineRow = Math.floor(Math.random()*8);
-        let mineCol = Math.floor(Math.random()*8);
+        let mineRow = Math.floor(Math.random() * 8);
+        let mineCol = Math.floor(Math.random() * 8);
         if (mineField[mineRow][mineCol] === 'Mine') {
             console.log('repeat!');
-            //Use while loop!
+            //Use while loop?
         }
         mineField[mineRow][mineCol] = 'Mine'
-    //    console.log(mineRow,mineCol);
     }
 
+    //place numbers into the mineField array based on hwo many mines surround each button
     mineField.forEach((arrayMine, arrayIdx) => {
 
         arrayMine.forEach((item, idx) => {
             let mineCount = 0;
 
             if (item !== 'Mine') {
-                if (arrayMine[idx+1] === 'Mine') {
+                if (arrayMine[idx + 1] === 'Mine') {
                     mineCount++;
-                } if (arrayMine[idx-1] === 'Mine') {
+                } if (arrayMine[idx - 1] === 'Mine') {
                     mineCount++;
-                } if (mineField[arrayIdx+1] !== undefined && mineField[arrayIdx+1][idx] === 'Mine') {
+                } if (mineField[arrayIdx + 1] !== undefined && mineField[arrayIdx + 1][idx] === 'Mine') {
                     mineCount++;
-                } if (mineField[arrayIdx+1] !== undefined && mineField[arrayIdx+1][idx+1] === 'Mine') {
+                } if (mineField[arrayIdx + 1] !== undefined && mineField[arrayIdx + 1][idx + 1] === 'Mine') {
                     mineCount++;
-                } if (mineField[arrayIdx+1] !== undefined && mineField[arrayIdx+1][idx-1] === 'Mine') {
+                } if (mineField[arrayIdx + 1] !== undefined && mineField[arrayIdx + 1][idx - 1] === 'Mine') {
                     mineCount++;
-                } if (mineField[arrayIdx-1] !== undefined && mineField[arrayIdx-1][idx] === 'Mine') {
+                } if (mineField[arrayIdx - 1] !== undefined && mineField[arrayIdx - 1][idx] === 'Mine') {
                     mineCount++;
-                } if (mineField[arrayIdx-1] !== undefined && mineField[arrayIdx-1][idx+1] === 'Mine') {
+                } if (mineField[arrayIdx - 1] !== undefined && mineField[arrayIdx - 1][idx + 1] === 'Mine') {
                     mineCount++;
-                } if (mineField[arrayIdx-1] !== undefined && mineField[arrayIdx-1][idx-1] === 'Mine') {
+                } if (mineField[arrayIdx - 1] !== undefined && mineField[arrayIdx - 1][idx - 1] === 'Mine') {
                     mineCount++;
-                } 
-//Need to get item into the MineField array
-                item = mineCount;
-//                mineField[arrayMine][item] = item;
-//                console.log(item,arrayIdx,idx);
+                }
+                //Need to get item into the mineField array
+                if (arrayMine !== undefined) {
+                    mineField[arrayIdx][idx] = mineCount;
+                }
             }
         })
     })
+    console.log(mineField);
 }
 
 
-generateMineField();
-console.log(mineField);
 
