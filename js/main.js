@@ -10,7 +10,7 @@ const mines = 10;
 
 //state variables, whats changing game to game
 
-//object for collecting empty buttons
+//array for collecting empty buttons
 let emptyButtons;
 
 //array of mines and numbers
@@ -24,6 +24,9 @@ let minesRemaining;
 
 //counts the number of flags on the board
 let flags;
+
+//new array object for storing all buttons
+let allButtons;
 
 
 
@@ -66,6 +69,22 @@ init();
 function init() {
     generateMineField();
     emptyButtons = [];
+    allButtons = [];
+
+boardButtonsEl.forEach((button) => {
+    allButtons.push(button.id);
+    allButtons[0].buttonRow = 0;
+})
+
+
+
+
+
+
+
+
+
+
     minesRemaining = mines;
     flags = 0;
     results = '';
@@ -112,19 +131,20 @@ function handleButtonClick(e) {
 //handler for empty buttons. Creates an array with the clicked empty button, and then
 //loops through every button adjacent to the button in the array to see if it is not a mine. If it is a number,
 //is it just clicked, if it is empty, it is clicked and added to the array.
-        emptyButtons.push([buttonRow, buttonCol]);
+        emptyButtons.push(e.target.id);
         emptyButtons.forEach((item, idx) => {
-            console.log(item[0], item[1]);
+            boardButtonsEl[parseFloat(item)+1].className = 'empty-safe';
+            console.log(boardButtonsEl[parseFloat(item)+1].innerText);
 
-            if (mineField[item[0]][item[1]+1] > 0) {
-                console.log('yes');
-                console.log(idx);
-                console.log(boardButtonsEl[idx]);
-//                console.log(mineField[item[0]][item[1]+1].target);
-//                mineField[item[0]][item[1]+1].className = 'safe';
-                // emptyButtons[idx + 1].className = 'safe';
-                // emptyButtons[idx + 1].innerText = buttonValue;
-            }
+            // if (mineField[item[0]][item[1]+1] > 0) {
+            //     console.log('yes');
+            //     console.log(idx);
+            //     console.log(boardButtonsEl[idx]);
+            //    console.log(mineField[item[0]][item[1]+1].target);
+            //    mineField[item[0]][item[1]+1].className = 'safe';
+            //     emptyButtons[idx + 1].className = 'safe';
+            //     emptyButtons[idx + 1].innerText = buttonValue;
+            // }
 
         })
 
