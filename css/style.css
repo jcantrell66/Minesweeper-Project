@@ -43,6 +43,10 @@ section button {
     transform: translateY(-10px);
 }
 
+.empty-safe {
+    background-color: grey;
+}
+
 .danger {
     background-color: red;
 }

@@ -10,8 +10,8 @@ const mines = 10;
 
 //state variables, whats changing game to game
 
-//main board displayed
-let board;
+//object for collecting empty buttons
+let emptyButtons;
 
 //array of mines and numbers
 let mineField;
@@ -62,9 +62,10 @@ document.querySelector('#boardButtons').addEventListener('click', handleButtonCl
 init();
 
 //setting the state variables EXCEPT for the board, which is
-//handled by setBoard
+//handled by generateMineField
 function init() {
     generateMineField();
+    emptyButtons = [];
     minesRemaining = mines;
     flags = 0;
     results = '';
@@ -100,34 +101,56 @@ function handleButtonClick(e) {
     if (buttonValue === 'Mine') {
         console.log('Game over');
         e.target.className = 'danger';
-    } else if (buttonValue > 0) {
-        e.target.innerText = buttonValue;
+        return;
+    } if (buttonValue !== 'Mine') {
         e.target.className = 'safe';
+    } if (buttonValue > 0) {
+        e.target.innerText = buttonValue;
+    } else {
+//        console.log(mineField[buttonRow+1][buttonCol+1]);
+
+//handler for empty buttons. Creates an array with the clicked empty button, and then
+//loops through every button adjacent to the button in the array to see if it is not a mine. If it is a number,
+//is it just clicked, if it is empty, it is clicked and added to the array.
+        emptyButtons.push([buttonRow, buttonCol]);
+        emptyButtons.forEach((item, idx) => {
+            console.log(item[0], item[1]);
+
+            if (mineField[item[0]][item[1]+1] > 0) {
+                console.log('yes');
+                console.log(idx);
+                console.log(boardButtonsEl[idx]);
+//                console.log(mineField[item[0]][item[1]+1].target);
+//                mineField[item[0]][item[1]+1].className = 'safe';
+                // emptyButtons[idx + 1].className = 'safe';
+                // emptyButtons[idx + 1].innerText = buttonValue;
+            }
+
+        })
+
+
+
+        if (buttonValue > 0) {
+            e.target.innerText = buttonValue;
+            e.target.className = 'safe';
+        } else {
+            e.target.className = 'empty-safe';
+        }
+//        handleEmptySafe(e, buttonValue);
     }
 }
 
 
 
-
-//Setting board with 8x8 array of empty buttons
-// function setBoard() {
-//     let arrayBoard = [];
-//     board = [];
-//     for (let i = 0; i < 8; i++) {
-//         board.push([]);
-//         let arrayBoard = board[i];
-//         for (let j = 0; j < 8; j++) {
-//             arrayBoard.push('');
-//         }
+// function handleEmptySafe(e, buttonValue){
+//     if (buttonValue > 0) {
+//         e.target.innerText = buttonValue;
+//         e.target.className = 'safe';
+//     } else {
+//         e.target.className = 'empty-safe';
 //     }
-//     console.log('Set board!');
-    // ***** Need to get the value of each index into their corresponding button?
-    //Do I even need an empty array, could I just use the buttons from the html
-    // and the mineField?
+//    console.log(buttonValue);
 // }
-
-
-
 
 
 function generateMineField() {
