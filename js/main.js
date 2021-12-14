@@ -1,5 +1,13 @@
 const mines = 10;
 
+//To do:
+//Finish left click
+//handle right click
+//fix mineField generation, while loop for mine repeats
+//fix init
+
+
+
 //state variables, whats changing game to game
 
 //main board displayed

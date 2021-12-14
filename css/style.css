@@ -33,12 +33,14 @@ section button {
     height: 35px;
     width: 35px;
     background-color: lightgray;
+
 }
-
-
 
 .safe {
     background-color: grey;
+    margin-bottom: -15px;
+    padding: 0px;
+    transform: translateY(-10px);
 }
 
 .danger {
