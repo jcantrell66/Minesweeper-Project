@@ -69,6 +69,11 @@ function init() {
     flags = 0;
     results = '';
 
+//reset the board, removing all classes and innerText
+    boardButtonsEl.forEach((item) => {
+            item.innerText = null;
+            item.removeAttribute('class');
+    })
 
 
     console.log('init is invoked!');
@@ -99,8 +104,6 @@ function handleButtonClick(e) {
         e.target.innerText = buttonValue;
         e.target.className = 'safe';
     }
-
-
 }
 
 
