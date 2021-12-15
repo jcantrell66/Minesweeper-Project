@@ -57,7 +57,7 @@ document.querySelector('#reset').addEventListener('click', init);
 document.querySelector('#boardButtons').addEventListener('click', handleButtonClick);
 
 //right click to set a flag
-
+//document.querySelector('#boardButtons').addEventListener('click', handleButtonClick);
 
 
 
@@ -120,21 +120,29 @@ function handleButtonClick(e) {
     if (buttonValue === 'Mine') {
         console.log('Game over');
         e.target.className = 'danger';
+        console.log(e.target-1);
         return;
-    } if (buttonValue !== 'Mine') {
-        e.target.className = 'safe';
-    } if (buttonValue > 0) {
+    } else if (buttonValue > 0) {
         e.target.innerText = buttonValue;
+        e.target.className = 'safe';
     } else {
+        e.target.className = 'empty-safe';
+        checkLeft(buttonRow,buttonCol,buttonValue);
+        checkRight(buttonRow,buttonCol,buttonValue);
+        checkUp(buttonRow,buttonCol,buttonValue);
+        checkDown(buttonRow,buttonCol,buttonValue);
+    }
+
+
 //        console.log(mineField[buttonRow+1][buttonCol+1]);
 
 //handler for empty buttons. Creates an array with the clicked empty button, and then
 //loops through every button adjacent to the button in the array to see if it is not a mine. If it is a number,
 //is it just clicked, if it is empty, it is clicked and added to the array.
-        emptyButtons.push(e.target.id);
-        emptyButtons.forEach((item, idx) => {
-            boardButtonsEl[parseFloat(item)+1].className = 'empty-safe';
-            console.log(boardButtonsEl[parseFloat(item)+1].innerText);
+        // emptyButtons.push(e.target.id);
+        // emptyButtons.forEach((item, idx) => {
+        //     boardButtonsEl[parseFloat(item)+1].className = 'empty-safe';
+        //     console.log(boardButtonsEl[parseFloat(item)+1].innerText);
 
             // if (mineField[item[0]][item[1]+1] > 0) {
             //     console.log('yes');
@@ -146,18 +154,81 @@ function handleButtonClick(e) {
             //     emptyButtons[idx + 1].innerText = buttonValue;
             // }
 
-        })
+        // })
 
 
-
-        if (buttonValue > 0) {
-            e.target.innerText = buttonValue;
-            e.target.className = 'safe';
-        } else {
-            e.target.className = 'empty-safe';
-        }
 //        handleEmptySafe(e, buttonValue);
+    
+}
+
+
+
+
+//check left of the empty button to uncover other buttons
+function checkLeft(buttonRow,buttonCol,buttonValue){
+    for (let i = buttonCol; i >= 0; i--) {
+        if (mineField[buttonRow][i] === 'Mine') {
+            return;
+        } else if (mineField[buttonRow][i] > 0) {
+            boardButtonsEl[(buttonRow*8)+i].className = 'safe';
+            boardButtonsEl[(buttonRow*8)+i].innerText = mineField[buttonRow][i];
+            return;
+        } else {
+            boardButtonsEl[(buttonRow*8)+i].className = 'empty-safe'
+        }
     }
+}
+
+//check right of the empty button to uncover other buttons
+function checkRight(buttonRow,buttonCol,buttonValue){
+    for (let i = buttonCol; i < mineField[buttonRow].length; i++) {
+        if (mineField[buttonRow][i] === 'Mine') {
+            return;
+        } else if (mineField[buttonRow][i] > 0) {
+            boardButtonsEl[(buttonRow*8)+i].className = 'safe';
+            boardButtonsEl[(buttonRow*8)+i].innerText = mineField[buttonRow][i];
+            return;
+        } else {
+            boardButtonsEl[(buttonRow*8)+i].className = 'empty-safe'
+        }
+    }
+}
+// !== undefined
+//check north of the empty button to uncover other buttons
+function checkUp(buttonRow,buttonCol,buttonValue){
+    if (mineField[buttonRow-1][buttonCol] !== undefined && mineField[buttonRow-1][buttonCol] === 'Mine') {
+        return;
+    } else if (mineField[buttonRow-1][buttonCol] > 0) {
+        boardButtonsEl[((buttonRow-1)*8)+buttonCol].className = 'safe';
+        boardButtonsEl[((buttonRow-1)*8)+buttonCol].innerText = mineField[buttonRow-1][buttonCol];
+        return;
+    } else {
+        checkLeft(buttonRow-1,buttonCol,buttonValue);
+        checkRight(buttonRow-1,buttonCol,buttonValue);
+    }
+}
+
+//check south of the empty button to uncover other buttons
+function checkDown(buttonRow,buttonCol,buttonValue){
+    if (mineField[buttonRow+1][buttonCol] === 'Mine') {
+        return;
+    } else if (mineField[buttonRow+1][buttonCol] > 0) {
+        boardButtonsEl[((buttonRow+1)*8)+buttonCol].className = 'safe';
+        boardButtonsEl[((buttonRow+1)*8)+buttonCol].innerText = mineField[buttonRow+1][buttonCol];
+        return;
+    } else {
+        checkLeft(buttonRow+1,buttonCol,buttonValue);
+        checkRight(buttonRow+1,buttonCol,buttonValue);
+    }
+}
+
+
+
+
+
+
+function handleFlagClick(){
+
 }
 
 
