@@ -167,6 +167,11 @@ function handleButtonClick(e) {
 //check left of the empty button to uncover other buttons
 function checkLeft(buttonRow,buttonCol,buttonValue){
     for (let i = buttonCol; i >= 0; i--) {
+        console.log(i,buttonRow,buttonCol,buttonValue);
+        if (mineField[buttonRow][i] === undefined) {
+            console.log('idx doesnt exist');
+            return;
+        }
         if (mineField[buttonRow][i] === 'Mine') {
             return;
         } else if (mineField[buttonRow][i] > 0) {
@@ -175,6 +180,9 @@ function checkLeft(buttonRow,buttonCol,buttonValue){
             return;
         } else {
             boardButtonsEl[(buttonRow*8)+i].className = 'empty-safe'
+            console.log(buttonRow,i-1,i+1,buttonValue);
+            checkUp(buttonRow,i-1,buttonValue);
+            checkDown(buttonRow,i+1,buttonValue);
         }
     }
 }
@@ -182,6 +190,10 @@ function checkLeft(buttonRow,buttonCol,buttonValue){
 //check right of the empty button to uncover other buttons
 function checkRight(buttonRow,buttonCol,buttonValue){
     for (let i = buttonCol; i < mineField[buttonRow].length; i++) {
+        if (mineField[buttonRow][i] === undefined) {
+            console.log('idx doesnt exist');
+            return;
+        }
         if (mineField[buttonRow][i] === 'Mine') {
             return;
         } else if (mineField[buttonRow][i] > 0) {
@@ -190,19 +202,21 @@ function checkRight(buttonRow,buttonCol,buttonValue){
             return;
         } else {
             boardButtonsEl[(buttonRow*8)+i].className = 'empty-safe'
+            checkUp(buttonRow,i-1,buttonValue);
+            checkDown(buttonRow,i+1,buttonValue);
         }
     }
 }
 // !== undefined
 //check north of the empty button to uncover other buttons
 function checkUp(buttonRow,buttonCol,buttonValue){
-    if (mineField[buttonRow-1][buttonCol] !== undefined && mineField[buttonRow-1][buttonCol] === 'Mine') {
+    if (mineField[buttonRow-1] !== undefined && mineField[buttonRow-1][buttonCol] === 'Mine') {
         return;
-    } else if (mineField[buttonRow-1][buttonCol] > 0) {
+    } else if (mineField[buttonRow-1] !== undefined && mineField[buttonRow-1][buttonCol] > 0) {
         boardButtonsEl[((buttonRow-1)*8)+buttonCol].className = 'safe';
         boardButtonsEl[((buttonRow-1)*8)+buttonCol].innerText = mineField[buttonRow-1][buttonCol];
         return;
-    } else {
+    } else if (mineField[buttonRow-1] !== undefined){
         checkLeft(buttonRow-1,buttonCol,buttonValue);
         checkRight(buttonRow-1,buttonCol,buttonValue);
     }
@@ -210,13 +224,13 @@ function checkUp(buttonRow,buttonCol,buttonValue){
 
 //check south of the empty button to uncover other buttons
 function checkDown(buttonRow,buttonCol,buttonValue){
-    if (mineField[buttonRow+1][buttonCol] === 'Mine') {
+    if (mineField[buttonRow+1] !== undefined && mineField[buttonRow+1][buttonCol] === 'Mine') {
         return;
-    } else if (mineField[buttonRow+1][buttonCol] > 0) {
+    } else if (mineField[buttonRow+1] !== undefined && mineField[buttonRow+1][buttonCol] > 0) {
         boardButtonsEl[((buttonRow+1)*8)+buttonCol].className = 'safe';
         boardButtonsEl[((buttonRow+1)*8)+buttonCol].innerText = mineField[buttonRow+1][buttonCol];
         return;
-    } else {
+    } else if (mineField[buttonRow+1] !== undefined) {
         checkLeft(buttonRow+1,buttonCol,buttonValue);
         checkRight(buttonRow+1,buttonCol,buttonValue);
     }
