@@ -131,15 +131,29 @@ function handleButtonClick(e) {
         e.target.className = 'empty-safe';
         //this calls a function that is the meta-checker for all other empty-safe
         //check functions
-        checkLeft(buttonRow, buttonCol);
+
+        checkAll(buttonRow, buttonCol);
+        // checkAll(buttonRow, buttonCol);
     }
 }
 
 //change checkLeft to be only checkLeft? and create a 'meta-function'
 
-//check left of the empty button to uncover other buttons
-function checkLeft(buttonRow, buttonCol) {
-    //buttonRow and buttonCol are the x y coordinates of where i have clicked
+// function checkAll(buttonRow, buttonCol) {
+//     console.log(buttonRow, buttonCol, 'left');
+//     checkLeft(buttonRow, buttonCol - 1)
+//     console.log(buttonRow, buttonCol, 'right');
+//     checkRight(buttonRow, buttonCol + 1)
+// console.log(buttonRow, buttonCol, 'up');
+// checkUp(buttonRow - 1, buttonCol)
+// console.log(buttonRow, buttonCol, 'down');
+// checkDown(buttonRow + 1, buttonCol)
+// }
+
+
+
+//check all of the empty buttons to uncover other buttons
+function checkAll(buttonRow, buttonCol) {
     if (mineField[buttonRow][buttonCol] === undefined) {
         return;
     }
@@ -153,16 +167,41 @@ function checkLeft(buttonRow, buttonCol) {
         //as long as the button click has a classname of empty-safe, then we
         //recursively run the checkLeft function again by moving one to the left
         boardButtonsEl[(buttonRow * 8) + buttonCol].className = 'empty-safe'
-        console.log(buttonRow, buttonCol, 'left');
-        checkLeft(buttonRow, buttonCol - 1)
-        console.log(buttonRow, buttonCol, 'right');
-        checkRight(buttonRow, buttonCol + 1)
-        console.log(buttonRow, buttonCol, 'up');
-        checkUp(buttonRow - 1, buttonCol)
-        console.log(buttonRow, buttonCol, 'down');
-        checkDown(buttonRow + 1, buttonCol)
+        console.log(buttonRow, buttonCol, 'all');
+        // checkAll(buttonRow, buttonCol - 1)
+        console.log(buttonRow, buttonCol, 'left', 'checkAll');
+        checkLeft(buttonRow, buttonCol)
+        console.log(buttonRow, buttonCol, 'right', 'checkAll');
+        checkRight(buttonRow, buttonCol)
+        console.log(buttonRow, buttonCol, 'up', 'checkAll');
+        checkUp(buttonRow, buttonCol)
+        console.log(buttonRow, buttonCol, 'down', 'checkAll');
+        checkDown(buttonRow, buttonCol)
     }
 }
+
+//check left of the empty button to uncover other buttons
+function checkLeft(buttonRow, buttonCol) {
+    if (mineField[buttonRow][buttonCol] === undefined) {
+        return;
+    }
+    if (mineField[buttonRow][buttonCol] === 'Mine') {
+        return;
+    } else if (mineField[buttonRow][buttonCol] > 0) {
+        boardButtonsEl[(buttonRow * 8) + buttonCol].className = 'safe';
+        boardButtonsEl[(buttonRow * 8) + buttonCol].innerText = mineField[buttonRow][buttonCol];
+        return;
+    } else {
+        boardButtonsEl[(buttonRow * 8) + buttonCol].className = 'empty-safe'
+        console.log(buttonRow, buttonCol, 'left', 'checkLeft');
+
+//        checkUp(buttonRow - 1, buttonCol);
+          checkLeft(buttonRow, buttonCol - 1);
+//        checkDown(buttonRow + 1, buttonCol);
+    }
+}
+
+
 //check right of the empty button to uncover other buttons
 function checkRight(buttonRow, buttonCol) {
     if (mineField[buttonRow][buttonCol] === undefined) {
@@ -176,10 +215,13 @@ function checkRight(buttonRow, buttonCol) {
         return;
     } else {
         boardButtonsEl[(buttonRow * 8) + buttonCol].className = 'empty-safe';
+        console.log(buttonRow, buttonCol, 'right', 'checkRight');
         checkRight(buttonRow, buttonCol + 1);
-        checkDown(buttonRow + 1, buttonCol);
+        console.log(buttonRow, buttonCol, 'up', 'checkRight');
         checkUp(buttonRow - 1, buttonCol);
-//        checkLeft(buttonRow, buttonCol - 1)
+        console.log(buttonRow, buttonCol, 'down', 'checkRight');
+        checkDown(buttonRow + 1, buttonCol);
+
     }
 }
 
@@ -195,9 +237,12 @@ function checkUp(buttonRow, buttonCol) {
         return;
     } else {
         boardButtonsEl[(buttonRow * 8) + buttonCol].className = 'empty-safe'
-        checkUp(buttonRow - 1, buttonCol)
-        checkRight(buttonRow, buttonCol + 1)
-//        checkLeft(buttonRow, buttonCol - 1)
+        console.log(buttonRow, buttonCol, 'right', 'checkUp');
+        checkRight(buttonRow, buttonCol);
+        console.log(buttonRow, buttonCol, 'left', 'checkUp');
+        checkLeft(buttonRow, buttonCol);
+        console.log(buttonRow, buttonCol, 'up', 'checkUp');
+        checkUp(buttonRow - 1, buttonCol);
     }
 }
 
@@ -213,9 +258,12 @@ function checkDown(buttonRow, buttonCol) {
         return;
     } else {
         boardButtonsEl[(buttonRow * 8) + buttonCol].className = 'empty-safe'
-        checkDown(buttonRow + 1, buttonCol)
-        checkRight(buttonRow, buttonCol + 1)
-//       checkLeft(buttonRow, buttonCol - 1)
+        console.log(buttonRow, buttonCol, 'right', 'checkDown');
+        checkRight(buttonRow, buttonCol + 1);
+        console.log(buttonRow, buttonCol, 'left', 'checkDown');
+        checkLeft(buttonRow, buttonCol - 1);
+        console.log(buttonRow, buttonCol, 'down', 'checkDown');
+        checkDown(buttonRow + 1, buttonCol);
 
     }
 }
