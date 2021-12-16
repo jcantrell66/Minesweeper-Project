@@ -129,50 +129,18 @@ function handleButtonClick(e) {
         e.target.className = 'safe';
     } else {
         e.target.className = 'empty-safe';
-        checkLeft(buttonRow, buttonCol, buttonValue, emptyCount, maxEmptyCount);
-        checkRight(buttonRow, buttonCol, buttonValue, emptyCount, maxEmptyCount);
-        // checkUp(buttonRow,buttonCol,buttonValue);
-        // checkDown(buttonRow,buttonCol,buttonValue);
+        //this calls a function that is the meta-checker for all other empty-safe
+        //check functions
+        checkLeft(buttonRow, buttonCol);
     }
-
-
-    //        console.log(mineField[buttonRow+1][buttonCol+1]);
-
-    //handler for empty buttons. Creates an array with the clicked empty button, and then
-    //loops through every button adjacent to the button in the array to see if it is not a mine. If it is a number,
-    //is it just clicked, if it is empty, it is clicked and added to the array.
-    // emptyButtons.push(e.target.id);
-    // emptyButtons.forEach((item, idx) => {
-    //     boardButtonsEl[parseFloat(item)+1].className = 'empty-safe';
-    //     console.log(boardButtonsEl[parseFloat(item)+1].innerText);
-
-    // if (mineField[item[0]][item[1]+1] > 0) {
-    //     console.log('yes');
-    //     console.log(idx);
-    //     console.log(boardButtonsEl[idx]);
-    //    console.log(mineField[item[0]][item[1]+1].target);
-    //    mineField[item[0]][item[1]+1].className = 'safe';
-    //     emptyButtons[idx + 1].className = 'safe';
-    //     emptyButtons[idx + 1].innerText = buttonValue;
-    // }
-
-    // })
-
-
-    //        handleEmptySafe(e, buttonValue);
-
 }
 
-
+//change checkLeft to be only checkLeft? and create a 'meta-function'
 
 //check left of the empty button to uncover other buttons
 function checkLeft(buttonRow, buttonCol) {
     //buttonRow and buttonCol are the x y coordinates of where i have clicked
-//    console.log('checking left')
-//    console.log(buttonRow, buttonCol);
     if (mineField[buttonRow][buttonCol] === undefined) {
-//        console.log(mineField[buttonRow][buttonCol])
-//        console.log('idx doesnt exist');
         return;
     }
     if (mineField[buttonRow][buttonCol] === 'Mine') {
@@ -185,20 +153,19 @@ function checkLeft(buttonRow, buttonCol) {
         //as long as the button click has a classname of empty-safe, then we
         //recursively run the checkLeft function again by moving one to the left
         boardButtonsEl[(buttonRow * 8) + buttonCol].className = 'empty-safe'
-    console.log(buttonRow,buttonCol, 'left');
+        console.log(buttonRow, buttonCol, 'left');
         checkLeft(buttonRow, buttonCol - 1)
-        console.log(buttonRow,buttonCol, 'right');
+        console.log(buttonRow, buttonCol, 'right');
         checkRight(buttonRow, buttonCol + 1)
-        console.log(buttonRow,buttonCol, 'up');
+        console.log(buttonRow, buttonCol, 'up');
         checkUp(buttonRow - 1, buttonCol)
-        console.log(buttonRow,buttonCol, 'down');
+        console.log(buttonRow, buttonCol, 'down');
         checkDown(buttonRow + 1, buttonCol)
     }
 }
 //check right of the empty button to uncover other buttons
 function checkRight(buttonRow, buttonCol) {
     if (mineField[buttonRow][buttonCol] === undefined) {
-//        console.log('idx doesnt exist');
         return;
     }
     if (mineField[buttonRow][buttonCol] === 'Mine') {
@@ -209,18 +176,16 @@ function checkRight(buttonRow, buttonCol) {
         return;
     } else {
         boardButtonsEl[(buttonRow * 8) + buttonCol].className = 'empty-safe';
-        // checkUp(buttonRow,i-1,buttonValue);
-        // checkDown(buttonRow,i+1,buttonValue);
         checkRight(buttonRow, buttonCol + 1);
+        checkDown(buttonRow + 1, buttonCol);
+        checkUp(buttonRow - 1, buttonCol);
+//        checkLeft(buttonRow, buttonCol - 1)
     }
 }
 
 //check north of the empty button to uncover other buttons
 function checkUp(buttonRow, buttonCol) {
-//    console.log('check up', buttonRow, buttonCol)
     if (mineField[buttonRow] === undefined) {
-//        console.log(mineField[buttonRow][buttonCol])
-//        console.log('idx doesnt exist');
         return;
     } if (mineField[buttonRow][buttonCol] === 'Mine') {
         return;
@@ -230,17 +195,15 @@ function checkUp(buttonRow, buttonCol) {
         return;
     } else {
         boardButtonsEl[(buttonRow * 8) + buttonCol].className = 'empty-safe'
-        // checkLeft(buttonRow, buttonCol);
-        // checkRight(buttonRow, buttonCol);
         checkUp(buttonRow - 1, buttonCol)
+        checkRight(buttonRow, buttonCol + 1)
+//        checkLeft(buttonRow, buttonCol - 1)
     }
 }
 
 //check south of the empty button to uncover other buttons
 function checkDown(buttonRow, buttonCol) {
     if (mineField[buttonRow] === undefined) {
-//        console.log(mineField[buttonRow][buttonCol])
-//        console.log('idx doesnt exist');
         return;
     } if (mineField[buttonRow][buttonCol] === 'Mine') {
         return;
@@ -250,9 +213,9 @@ function checkDown(buttonRow, buttonCol) {
         return;
     } else {
         boardButtonsEl[(buttonRow * 8) + buttonCol].className = 'empty-safe'
-        // checkLeft(buttonRow, buttonCol);
-        // checkRight(buttonRow, buttonCol);
         checkDown(buttonRow + 1, buttonCol)
+        checkRight(buttonRow, buttonCol + 1)
+//       checkLeft(buttonRow, buttonCol - 1)
 
     }
 }
