@@ -6,17 +6,25 @@ body {
     align-items: center;
 }
 
-/* header {
+header {
+    display: flex;
     flex-direction: column;
-} */
+    justify-content: space-between;
+}
 
 ul {
-    justify-content: space-around;
+    justify-content: space-between;
+
 }
 
 li {
     display: inline;
 
+}
+
+#results {
+    border: 3px solid grey;
+    border-radius: 3px;
 }
 
 
