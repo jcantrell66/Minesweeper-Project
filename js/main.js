@@ -81,8 +81,8 @@ function init() {
     emptyButtons = [];
 
 
-//    minesRemaining = mines;
-//    flags = 0;
+    //    minesRemaining = mines;
+    //    flags = 0;
     buttonCount = 0;
 
     //reset the board, removing all classes and innerText
@@ -152,11 +152,11 @@ function checkAll(buttonRow, buttonCol) {
         // console.log(buttonRow, buttonCol, 'all');
         // checkAll(buttonRow, buttonCol - 1)
         console.log(buttonRow, buttonCol, 'left', 'checkAll');
-        checkLeft(buttonRow, buttonCol -1)
+        checkLeft(buttonRow, buttonCol - 1)
         console.log(buttonRow, buttonCol, 'right', 'checkAll');
         checkRight(buttonRow, buttonCol + 1)
         console.log(buttonRow, buttonCol, 'up', 'checkAll');
-        checkUp(buttonRow -1, buttonCol)
+        checkUp(buttonRow - 1, buttonCol)
         console.log(buttonRow, buttonCol, 'down', 'checkAll');
         checkDown(buttonRow + 1, buttonCol)
     }
@@ -188,7 +188,7 @@ function checkLeft(buttonRow, buttonCol, direction) {
         // console.log(buttonRow, buttonCol, 'left', 'checkLeft');
         checkUp(buttonRow - 1, buttonCol);
         checkDown(buttonRow + 1, buttonCol);
-       checkLeft(buttonRow, buttonCol - 1);
+        checkLeft(buttonRow, buttonCol - 1);
     }
 }
 //check right of the empty button to uncover other buttons
@@ -228,7 +228,7 @@ function checkRight(buttonRow, buttonCol, direction) {
 //check north of the empty button to uncover other buttons
 function checkUp(buttonRow, buttonCol) {
     // console.log(boardButtonsEl[(buttonRow * 8) + buttonCol], 'line 230')
-    console.log(buttonRow,buttonCol, 'error check checkUp');
+    console.log(buttonRow, buttonCol, 'error check checkUp');
     if (buttonRow > 7 || buttonCol > 7 || buttonRow < 0 || buttonCol < 0) {
         console.log('check up undefined')
         return;
@@ -253,7 +253,7 @@ function checkUp(buttonRow, buttonCol) {
 }
 //check south of the empty button to uncover other buttons
 function checkDown(buttonRow, buttonCol) {
-//    console.log(boardButtonsEl[(buttonRow * 8) + buttonCol], 'line 258')
+    //    console.log(boardButtonsEl[(buttonRow * 8) + buttonCol], 'line 258')
     if (buttonRow > 7 || buttonCol > 7 || buttonRow < 0 || buttonCol < 0) {
         console.log('checkdown undefined')
         return;
@@ -270,8 +270,8 @@ function checkDown(buttonRow, buttonCol) {
         boardButtonsEl[(buttonRow * 8) + buttonCol].className = 'empty-safe'
         console.log(buttonRow, buttonCol + 1, 'right', 'checkDown');
         checkRight(buttonRow, buttonCol + 1, true);
-        console.log(buttonRow, buttonCol -1, 'left', 'checkDown');
-        checkLeft(buttonRow, buttonCol -1, true);
+        console.log(buttonRow, buttonCol - 1, 'left', 'checkDown');
+        checkLeft(buttonRow, buttonCol - 1, true);
         console.log(buttonRow + 1, buttonCol, 'down', 'checkDown');
         checkDown(buttonRow + 1, buttonCol);
     }
@@ -305,18 +305,6 @@ function winner() {
 }
 
 
-
-// function handleEmptySafe(e, buttonValue){
-//     if (buttonValue > 0) {
-//         e.target.innerText = buttonValue;
-//         e.target.className = 'safe';
-//     } else {
-//         e.target.className = 'empty-safe';
-//     }
-//    console.log(buttonValue);
-// }
-
-
 function generateMineField() {
     //generate the mineField array
     let arrayMine = [];
@@ -333,12 +321,14 @@ function generateMineField() {
     for (let i = 0; i < mines; i++) {
         let mineRow = Math.floor(Math.random() * 8);
         let mineCol = Math.floor(Math.random() * 8);
-        if (mineField[mineRow][mineCol] === 'Mine') {
-            console.log('repeat!');
-            //Use while loop?
+
+        while (mineField[mineRow][mineCol] === 'Mine') {
+            mineRow = Math.floor(Math.random() * 8);
+            mineCol = Math.floor(Math.random() * 8);
         }
-        mineField[mineRow][mineCol] = 'Mine'
     }
+    mineField[mineRow][mineCol] = 'Mine'
+
 
     //place numbers into the mineField array based on hwo many mines surround each button
     mineField.forEach((arrayMine, arrayIdx) => {
