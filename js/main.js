@@ -1,5 +1,4 @@
 const mines = 10;
-
 //state variables, whats changing game to game
 
 //array of mines and numbers
