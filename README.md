@@ -24,4 +24,4 @@ Click a cell to start the game, or the reset button to replay.
 
 - Fixing the main click function
 - Setting a right click function to plant flags, indicating a mine (and tracking the amount of flags)
-- Changing the grid size
+- Making buttons unclickable and revealing mines when the game ends

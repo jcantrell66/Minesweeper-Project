@@ -1,24 +1,5 @@
 const mines = 10;
 
-//To do:
-//beautify
-//deploy game
-
-
-
-// run these commands when ready for final deployment
-// git add -A
-
-// git commit -m "prep for deployment"
-
-// git checkout gh-pages
-
-// git merge main
-
-// git push origin gh-pages
-
-
-
 //state variables, whats changing game to game
 
 //array of mines and numbers
@@ -63,13 +44,7 @@ function init() {
         item.removeAttribute('class');
         resultsEl.innerText = "Results";
     })
-    render();
 }
-
-
-function render() {
-}
-
 
 function handleButtonClick(e) {
     //logic for matching each button with its corresponding value in the mineField array
@@ -202,7 +177,7 @@ function winner() {
             buttonCount++;
         }
     })
-    if (buttonCount >= 54) {
+    if (buttonCount >= 54 && resultsEl.innerText !== 'Game over!') {
         resultsEl.innerText = 'You win!';
     }
     buttonCount = 0;
@@ -265,7 +240,3 @@ function generateMineField() {
     })
     console.log(mineField);
 }
-
-
-
-
