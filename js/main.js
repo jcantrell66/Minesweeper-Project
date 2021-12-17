@@ -1,7 +1,6 @@
 const mines = 10;
 
 //To do:
-//fix win function. the button count is too high
 //beautify
 //deploy game
 
@@ -33,9 +32,6 @@ let buttonCount;
 
 //cache the buttons on the board
 const boardButtonsEl = document.querySelectorAll('#boardButtons > button');
-
-//the remaining mines (flags) displayed in the top left
-const remainingMinesEl = document.querySelector('#minesRemaining');
 
 //results need to be displayed once the game is over
 const resultsEl = document.querySelector('#results');

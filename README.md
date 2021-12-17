@@ -12,7 +12,7 @@ Click a cell to start the game, or the reset button to replay.
 
 [Play it here!](https://jcantrell66.github.io/Minesweeper-Project)
 
-<img src=''>
+<img src='https://imgur.com/M9zMsaI'>
 
 ## Technologies used:
 
